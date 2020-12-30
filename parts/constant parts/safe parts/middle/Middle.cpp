@@ -1,3 +1,0 @@
-
-
-#include "Middle.h"
