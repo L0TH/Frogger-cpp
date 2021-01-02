@@ -5,7 +5,7 @@
 
 void update(float ms)
 {
-    Game* game =reinterpret_cast<Game*>(graphics::getUserData());
+    Game* game = reinterpret_cast<Game*>(graphics::getUserData());
     game->update();
 }
 
@@ -31,7 +31,7 @@ int main()
     graphics::setCanvasSize(CANVAS_WIDTH, CANVAS_HEIGHT);
     graphics::setCanvasScaleMode(graphics::CANVAS_SCALE_FIT);
 
-    
+
     mygame.init();
     graphics::startMessageLoop();
 

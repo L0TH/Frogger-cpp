@@ -3,7 +3,7 @@
 Header with all the general static information for the game
 */
 #define ASSET_PATH "assets\\"
-#define WINDOW_WIDTH 1200
-#define WINDOW_HEIGHT 600
-#define CANVAS_WIDTH 1000
-#define	CANVAS_HEIGHT 500
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 800
+#define CANVAS_WIDTH 700
+#define	CANVAS_HEIGHT 700
