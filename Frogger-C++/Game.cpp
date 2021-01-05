@@ -7,15 +7,17 @@ void Game::update()
 	{
 		player = new Player(*this);
 		player_initialized = true;
-
+		
 	}
 	if (player)
 		player->update();
-	//@TODO Only 1 enemy eill be spowned this must change after test
+	//@TODO Only 1 enemy will be spowned this must change after test
 	checkEnemy();
 	spownEnemy();
-	if (enemy)
-		enemy->update();
+	if (enemy1)
+		enemy1->update();
+	if (enemy2)
+		enemy2->update();
 	if (checkCollision())
 	{
 		delete player;
@@ -25,22 +27,7 @@ void Game::update()
 	}
 	
 }
-//mabe must go to the ~Game
-void Game::spownEnemy()
-{
-	if (!enemy)
-	{
-	enemy = new Enemy(*this);
-	}
-}
-void Game::checkEnemy()
-{
-	if (enemy && !enemy->getState())
-	{
-		delete enemy;
-		enemy = nullptr;
-	}
-}
+
 void Game::draw()
 {
 	graphics::Brush br;
@@ -62,21 +49,54 @@ void Game::draw()
 		graphics::resetPose();
 	}
 
-	if (enemy)
-		enemy->draw();
+	if (enemy1)
+		enemy1->draw();
+	if (enemy2)
+		enemy2->draw();
+	
 
+}
+
+//mabe must go to the ~Game
+void Game::spownEnemy()
+{
+	if (!enemy1)
+	{
+		enemy1 = new Enemy(*this);
+		
+	}
+	if (!enemy2)
+	{
+		enemy2 = new Enemy(*this);
+		enemy2->set_x(CANVAS_WIDTH + 50);
+		enemy2->set_y(555);
+	}
+}
+void Game::checkEnemy()
+{
+	if (enemy1 && !enemy1->getState())
+	{
+		delete enemy1;
+		enemy1 = nullptr;
+	}
+	if (enemy2 && !enemy2->getState())
+	{
+		delete enemy2;
+		enemy2 = nullptr;
+	}
 }
 bool Game::checkCollision()
 {
-	if (!player || !enemy)
+	//collision for enemy2 must be added here 
+	if (!player || !enemy1)
 	{
 		return false;
 	}
 	
 	Disk d1 = player->getCollisionHull();
 	//de=disk x of enemy 
-	Disk de1 = enemy->getCollisionHull(10, -3, 4.5f);
-	Disk de2 = enemy->getCollisionHull(10, -3, 4.5f);
+	Disk de1 = enemy1->getCollisionHull(10, -3, 4.5f);
+	Disk de2 = enemy1->getCollisionHull(10, -3, 4.5f);
 	float dx = d1.cx - de1.cx;
 	float dy = d1.cy - de1.cy;
 	float dx2 = d1.cx - de2.cx;
@@ -93,6 +113,9 @@ void Game::init()
 Game::Game()
 {
 }
+
+
+
 Game::~Game()
 {
 	if (player)

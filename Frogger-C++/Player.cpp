@@ -5,7 +5,7 @@
 Player::Player(const Game& mygame)
 	:GameObject(mygame)
 {
-
+	
 }
 
 void Player::update()
@@ -46,6 +46,7 @@ void Player::update()
 
 void Player::draw()
 {
+	
 	graphics::Brush br;
 	if (fly)
 	{
@@ -85,6 +86,8 @@ void Player::draw()
 	br.gradient = false;
 	Disk hull = getCollisionHull();
 	graphics::drawDisk(hull.cx, hull.cy, hull.radius, br);
+
+	
 }
 
 void Player::init()

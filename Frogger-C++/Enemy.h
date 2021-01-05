@@ -1,5 +1,4 @@
 #pragma once
-
 #include"GameObject.h"
 class Enemy :public GameObject, public Collitable
 {
@@ -9,7 +8,9 @@ class Enemy :public GameObject, public Collitable
 	float size;
 	bool active = true;
 public:
-	void update() override;
+	void set_x(float x) { pos_x = x; }
+	void set_y(float y) { pos_y = y; }
+	 void update() override;
 	 void draw() override;
 	 void init() override;
 	 bool getState() { return active; }
