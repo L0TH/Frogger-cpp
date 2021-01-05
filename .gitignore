@@ -341,3 +341,9 @@ healthchecksdb
 .gitattributes
 *.db
 *.db-shm
+bin
+.vs
+graphics
+lib
+sgg
+command.txt
