@@ -1,7 +1,16 @@
 #pragma once
 #include "Config.h"
+#include "Util.h"
+class Collitable
+{
+public:
+	virtual Disk getCollisionHull() const = 0;
+	virtual Disk getCollisionHull(int ofset_x, int ofset_y, float red_size) const = 0;
+	
+};
 class GameObject
 {
+protected:
 	const class  Game& game;
 	
 public:

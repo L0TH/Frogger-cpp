@@ -16,6 +16,13 @@ void Game::update()
 	spownEnemy();
 	if (enemy)
 		enemy->update();
+	if (checkCollision())
+	{
+		delete player;
+		player = nullptr;
+		player = new Player(*this);
+		player_initialized = true;
+	}
 	
 }
 //mabe must go to the ~Game
@@ -46,7 +53,7 @@ void Game::draw()
 	//draw player
 	if (player)
 		player->draw();
-	//UI INFO
+	//UI INFO for debug
 	if (player)
 	{
 		char info[40];
@@ -57,6 +64,27 @@ void Game::draw()
 
 	if (enemy)
 		enemy->draw();
+
+}
+bool Game::checkCollision()
+{
+	if (!player || !enemy)
+	{
+		return false;
+	}
+	
+	Disk d1 = player->getCollisionHull();
+	//de=disk x of enemy 
+	Disk de1 = enemy->getCollisionHull(10, -3, 4.5f);
+	Disk de2 = enemy->getCollisionHull(10, -3, 4.5f);
+	float dx = d1.cx - de1.cx;
+	float dy = d1.cy - de1.cy;
+	float dx2 = d1.cx - de2.cx;
+	float dy2 = d1.cy - de2.cy;
+	if (sqrt(dx * dx + dy * dy) < d1.radius + de1.radius || sqrt(dx2 * dx2 + dy2 * dy2) < d1.radius + de2.radius)
+		return true;
+	else
+		return false;
 }
 void Game::init()
 {

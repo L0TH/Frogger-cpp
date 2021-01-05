@@ -46,10 +46,10 @@ void Player::update()
 
 void Player::draw()
 {
-	
+	graphics::Brush br;
 	if (fly)
 	{
-		graphics::Brush br;
+		
 		br.texture = std::string(ASSET_PATH) + "flying-frog - Copy.png";
 		br.outline_opacity = 0.0f;
 		br.fill_opacity = 0.5f;
@@ -67,7 +67,7 @@ void Player::draw()
 	if (!fly)
 	{
 
-		graphics::Brush br;
+		
 		br.texture = std::string(ASSET_PATH) + "sitting-frog.png";
 		br.outline_opacity = 0.0f;
 		graphics::setOrientation(orientation);
@@ -75,9 +75,36 @@ void Player::draw()
 		
 	}
 	fly = false;
-	
+	//for debuging
+	br.outline_opacity = 1.f;
+	br.texture = "";
+	br.fill_color[0] = 0.3f;
+	br.fill_color[1] = 1.f;
+	br.fill_color[2] = 0.3f;
+	br.fill_opacity = 0.3f;
+	br.gradient = false;
+	Disk hull = getCollisionHull();
+	graphics::drawDisk(hull.cx, hull.cy, hull.radius, br);
 }
 
 void Player::init()
 {
+}
+
+Disk Player::getCollisionHull() const
+{
+	Disk disk;
+	disk.cx = pos_x;
+	disk.cy = pos_y;
+	disk.radius = 20.0f;
+	return disk;
+}
+
+Disk Player::getCollisionHull(int ofset_x, int ofset_y, float red_size) const
+{
+	Disk disk;
+	disk.cx = pos_x;
+	disk.cy = pos_y;
+	disk.radius = 20.0f;
+	return disk;
 }
