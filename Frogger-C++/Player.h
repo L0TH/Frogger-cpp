@@ -13,7 +13,6 @@ public:
 	Player(const class Game& mygame);
 	 void update() override;
 	 void draw() override;
-	 void draw(bool a);
 	 void init() override;
 	 float getPosY(){return pos_y;}
 	 float getPosX() { return pos_x; }

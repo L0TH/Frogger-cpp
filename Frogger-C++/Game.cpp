@@ -14,10 +14,18 @@ void Game::update()
 	//@TODO Only 1 enemy will be spowned this must change after test
 	checkEnemy();
 	spownEnemy();
-	if (enemy1)
-		enemy1->update();
-	if (enemy2)
-		enemy2->update();
+	for (int i = 0; i < numOfEnemys; ++i)
+	{
+		if (enemys[i])
+		{
+			enemys[i]->update();
+		}
+	}
+	//	enemy1->update();
+	//if (enemy2)
+	//	enemy2->update();
+	
+
 	if (checkCollision())
 	{
 		delete player;
@@ -25,6 +33,7 @@ void Game::update()
 		player = new Player(*this);
 		player_initialized = true;
 	}
+
 	
 }
 
@@ -48,11 +57,17 @@ void Game::draw()
 		graphics::drawText(50, 50, 20, info, br);
 		graphics::resetPose();
 	}
+	for (int i = 0; i < numOfEnemys; ++i)
+	{
+		if (enemys[i])
+		{
+			enemys[i]->draw();
 
-	if (enemy1)
-		enemy1->draw();
-	if (enemy2)
-		enemy2->draw();
+		}
+	}
+	//	enemy1->draw();
+	//if (enemy2)
+	//	enemy2->draw();
 	
 
 }
@@ -60,21 +75,43 @@ void Game::draw()
 //mabe must go to the ~Game
 void Game::spownEnemy()
 {
-	if (!enemy1)
+	//maybe if must leave an numOfEnemys become static 
+	if (!enemys_alive)
 	{
-		enemy1 = new Enemy(*this);
-		
+		float posneg = -1.f;
+		for (int i = 0; i < numOfEnemys; ++i)
+		{
+			enemys[i] = new Enemy(*this);
+			enemys[i]->set_diraction(posneg);
+			if (posneg == 1.f)
+			{
+				enemys[i]->set_x(0);
+			}
+			else 
+			{
+				enemys[i]->set_x(CANVAS_WIDTH + 50);
+			}
+			enemys[i]->set_y(base_pos - i * 60);
+			posneg *= -1.f;
+		}
+		enemys_alive = true;
 	}
-	if (!enemy2)
-	{
-		enemy2 = new Enemy(*this);
-		enemy2->set_x(CANVAS_WIDTH + 50);
-		enemy2->set_y(555);
-	}
+	
 }
 void Game::checkEnemy()
 {
-	if (enemy1 && !enemy1->getState())
+	
+		for (int i = 0; i < numOfEnemys; ++i)
+		{
+			if (enemys[i] && !enemys[i]->getState())
+			{
+				delete enemys[i];
+				enemys[i] = nullptr;
+				enemys_alive = false;
+			}
+		}
+	
+	/**if (enemy1 && !enemy1->getState())
 	{
 		delete enemy1;
 		enemy1 = nullptr;
@@ -83,29 +120,40 @@ void Game::checkEnemy()
 	{
 		delete enemy2;
 		enemy2 = nullptr;
-	}
+	}**/
 }
 bool Game::checkCollision()
 {
 	//collision for enemy2 must be added here 
-	if (!player || !enemy1)
+	for (int i = 0; i < numOfEnemys; ++i)
 	{
-		return false;
+		if (!player||!enemys[i])
+		{
+			return false;
+		}
+
+		Disk d1 = player->getCollisionHull();
+		//de=disk x of enemy 
+		Disk de[2];
+		de[0] = enemys[i]->getCollisionHull(10, -3, 4.5f);
+		de[1] = enemys[i]->getCollisionHull(10, -3, 4.5f);
+		float dx1;
+		float dx2;
+		dx1 = dxCal(d1.cx, de[0].cx);
+		dx2 = dxCal(d1.cx, de[1].cx);
+		float dy1;
+		float dy2;
+		dy1 = dxCal(d1.cy, de[0].cy);
+		dy2 = dxCal(d1.cy, de[1].cy);
+
+
+		if (sqrt(dx1*dx1+dy1*dy1) < d1.radius+ de[0].radius || sqrt(dx2*dx2+ dy2*dy2) < d1.radius+de[1].radius)
+			return true;
+		
 	}
-	
-	Disk d1 = player->getCollisionHull();
-	//de=disk x of enemy 
-	Disk de1 = enemy1->getCollisionHull(10, -3, 4.5f);
-	Disk de2 = enemy1->getCollisionHull(10, -3, 4.5f);
-	float dx = d1.cx - de1.cx;
-	float dy = d1.cy - de1.cy;
-	float dx2 = d1.cx - de2.cx;
-	float dy2 = d1.cy - de2.cy;
-	if (sqrt(dx * dx + dy * dy) < d1.radius + de1.radius || sqrt(dx2 * dx2 + dy2 * dy2) < d1.radius + de2.radius)
-		return true;
-	else
-		return false;
+	return false;
 }
+
 void Game::init()
 {
 	graphics::setFont(std::string(ASSET_PATH) + "font.ttf");
@@ -123,3 +171,9 @@ Game::~Game()
 		delete player;
 	}
 }
+
+float  Game::dxCal(float a, float b)
+{
+	return a - b;
+};
+

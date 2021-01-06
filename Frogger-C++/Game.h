@@ -1,5 +1,5 @@
 #pragma once
-
+#include <math.h>
 #include "Player.h"
 #include "Enemy.h"
 class Game
@@ -7,11 +7,15 @@ class Game
 	
 	Player * player=nullptr;
 	bool player_initialized=false;
-	Enemy* enemy1;
-	Enemy* enemy2;
+	int numOfEnemys = 5;
+	bool enemys_alive = false;
+	Enemy* enemys[5];
+	float base_pos = 615;
 	void spownEnemy();
 	void checkEnemy();
 	bool checkCollision();
+	float dxCal(float a, float b);
+	
 	
 
 public:

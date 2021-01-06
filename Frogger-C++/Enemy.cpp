@@ -5,7 +5,7 @@
 
 void Enemy::update()
 {
-	pos_x += speed * graphics::getDeltaTime() * ditaction;
+	pos_x += speed * graphics::getDeltaTime() * diraction;
 	if (pos_x < -size)
 	{
 		active = false;
@@ -40,12 +40,9 @@ void Enemy::draw()
 
 void Enemy::init()
 {
-	
 	speed = 0.1f;
-	pos_x = CANVAS_WIDTH+40 ;
-	pos_y=615 ;
 	size = 100;
-	ditaction = -1.f;
+	
 }
 
 Enemy::Enemy(const class Game& mygame)

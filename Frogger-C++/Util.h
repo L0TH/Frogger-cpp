@@ -4,3 +4,4 @@ struct Disk
 	float cx, cy;
 	float radius;
 };
+
