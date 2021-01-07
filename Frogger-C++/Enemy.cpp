@@ -6,7 +6,7 @@
 void Enemy::update()
 {
 	pos_x += speed * graphics::getDeltaTime() * diraction;
-	if (pos_x < -size)
+	if (pos_x < -size||pos_x>CANVAS_WIDTH+size)
 	{
 		active = false;
 	}

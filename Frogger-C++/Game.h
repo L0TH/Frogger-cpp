@@ -4,14 +4,15 @@
 #include "Enemy.h"
 class Game
 {
-	
+	bool onetime = true;
 	Player * player=nullptr;
 	bool player_initialized=false;
-	int numOfEnemys = 5;
+	bool loc_enemy[15];
+	int numOfEnemys = 15;
 	bool enemys_alive = false;
-	Enemy* enemys[5];
+	Enemy* enemys[15];
 	float base_pos = 615;
-	void spownEnemy();
+	void spownEnemy(int start);
 	void checkEnemy();
 	bool checkCollision();
 	float dxCal(float a, float b);

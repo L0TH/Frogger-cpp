@@ -48,6 +48,7 @@ void Player::draw()
 {
 	
 	graphics::Brush br;
+
 	if (fly)
 	{
 		
@@ -67,8 +68,6 @@ void Player::draw()
 	}
 	if (!fly)
 	{
-
-		
 		br.texture = std::string(ASSET_PATH) + "sitting-frog.png";
 		br.outline_opacity = 0.0f;
 		graphics::setOrientation(orientation);

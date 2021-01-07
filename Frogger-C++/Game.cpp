@@ -11,9 +11,17 @@ void Game::update()
 	}
 	if (player)
 		player->update();
-	//@TODO Only 1 enemy will be spowned this must change after test
+	
 	checkEnemy();
-	spownEnemy();
+	spownEnemy(0);
+	if (graphics::getGlobalTime() > 2500 )
+	{
+		spownEnemy(5);
+	}
+	if (graphics::getGlobalTime() > 5000)
+	{
+		spownEnemy(10);
+	}
 	for (int i = 0; i < numOfEnemys; ++i)
 	{
 		if (enemys[i])
@@ -21,9 +29,7 @@ void Game::update()
 			enemys[i]->update();
 		}
 	}
-	//	enemy1->update();
-	//if (enemy2)
-	//	enemy2->update();
+
 	
 
 	if (checkCollision())
@@ -65,38 +71,41 @@ void Game::draw()
 
 		}
 	}
-	//	enemy1->draw();
-	//if (enemy2)
-	//	enemy2->draw();
+	
 	
 
 }
 
+
 //mabe must go to the ~Game
-void Game::spownEnemy()
+void Game::spownEnemy(int start)
 {
 	//maybe if must leave an numOfEnemys become static 
-	if (!enemys_alive)
+	int depos_y = -1;
+	float directionSeter = -1.f;
+	for (int i =start; i <start+5 ; ++i)
 	{
-		float posneg = -1.f;
-		for (int i = 0; i < numOfEnemys; ++i)
+		if (!loc_enemy[i])
 		{
-			enemys[i] = new Enemy(*this);
-			enemys[i]->set_diraction(posneg);
-			if (posneg == 1.f)
-			{
-				enemys[i]->set_x(0);
-			}
-			else 
-			{
-				enemys[i]->set_x(CANVAS_WIDTH + 50);
-			}
-			enemys[i]->set_y(base_pos - i * 60);
-			posneg *= -1.f;
+				enemys[i] = new Enemy(*this);
+				loc_enemy[i] = true;
+				enemys[i]->set_diraction(directionSeter);
+				if (directionSeter == 1.f)
+				{
+					enemys[i]->set_x(0);
+				}
+				else
+				{
+					enemys[i]->set_x(CANVAS_WIDTH + 50);
+				}
+				enemys[i]->set_y(base_pos - (i-start) * 60);
+					
+			
 		}
-		enemys_alive = true;
+		directionSeter *= -1.f;
 	}
-	
+	base_pos = 615;
+	directionSeter = -1.f;
 }
 void Game::checkEnemy()
 {
@@ -104,27 +113,18 @@ void Game::checkEnemy()
 		for (int i = 0; i < numOfEnemys; ++i)
 		{
 			if (enemys[i] && !enemys[i]->getState())
-			{
+			{	
 				delete enemys[i];
 				enemys[i] = nullptr;
-				enemys_alive = false;
+				loc_enemy[i] = false;
 			}
 		}
 	
-	/**if (enemy1 && !enemy1->getState())
-	{
-		delete enemy1;
-		enemy1 = nullptr;
-	}
-	if (enemy2 && !enemy2->getState())
-	{
-		delete enemy2;
-		enemy2 = nullptr;
-	}**/
+	
 }
 bool Game::checkCollision()
 {
-	//collision for enemy2 must be added here 
+	
 	for (int i = 0; i < numOfEnemys; ++i)
 	{
 		if (!player||!enemys[i])
@@ -176,4 +176,3 @@ float  Game::dxCal(float a, float b)
 {
 	return a - b;
 };
-
