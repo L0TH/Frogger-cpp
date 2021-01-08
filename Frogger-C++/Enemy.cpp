@@ -3,6 +3,12 @@
 #include "Config.h"
 #include "Game.h"
 
+Enemy::Enemy(const class Game& mygame)
+	:GameObject(mygame)
+{
+	init();
+}
+
 void Enemy::update()
 {
 	pos_x += speed * graphics::getDeltaTime() * diraction;
@@ -42,14 +48,10 @@ void Enemy::init()
 {
 	speed = 0.1f;
 	size = 100;
+	active = true;
 	
 }
 
-Enemy::Enemy(const class Game& mygame)
-	:GameObject(mygame)
-{
-	init();
-}
 
 Enemy::~Enemy()
 {

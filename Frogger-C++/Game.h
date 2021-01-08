@@ -2,6 +2,7 @@
 #include <math.h>
 #include "Player.h"
 #include "Enemy.h"
+#include "Turtle.h"
 class Game
 {
 	bool onetime = true;
@@ -12,7 +13,9 @@ class Game
 	bool enemys_alive = false;
 	Enemy* enemys[15];
 	float base_pos = 615;
+	Turtle* turtle = nullptr;
 	void spownEnemy(int start);
+	void spownTurtles();
 	void checkEnemy();
 	bool checkCollision();
 	float dxCal(float a, float b);

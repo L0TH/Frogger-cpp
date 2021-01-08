@@ -1,10 +1,12 @@
 #include "Game.h"
 #include "graphics.h"
 #include "Config.h"
+
 void Game::update()
 {
-	if (!player_initialized && graphics::getGlobalTime() > 1000)
+	if (!player_initialized && graphics::getGlobalTime() > 1500)
 	{
+		
 		player = new Player(*this);
 		player_initialized = true;
 		
@@ -14,6 +16,9 @@ void Game::update()
 	
 	checkEnemy();
 	spownEnemy(0);
+	spownTurtles();
+	if (turtle)
+		turtle->update();
 	if (graphics::getGlobalTime() > 2500 )
 	{
 		spownEnemy(5);
@@ -51,10 +56,12 @@ void Game::draw()
 
 	//draw background
 	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_WIDTH, br);
-
+	if (turtle)
+		turtle->draw();
 	//draw player
 	if (player)
 		player->draw();
+
 	//UI INFO for debug
 	if (player)
 	{
@@ -75,7 +82,10 @@ void Game::draw()
 	
 
 }
-
+void Game::spownTurtles()
+{
+	turtle = new Turtle(*this);
+}
 
 //mabe must go to the ~Game
 void Game::spownEnemy(int start)
@@ -122,6 +132,7 @@ void Game::checkEnemy()
 	
 	
 }
+
 bool Game::checkCollision()
 {
 	

@@ -5,7 +5,7 @@
 Player::Player(const Game& mygame)
 	:GameObject(mygame)
 {
-	
+	init();
 }
 
 void Player::update()
@@ -72,6 +72,7 @@ void Player::draw()
 		br.outline_opacity = 0.0f;
 		graphics::setOrientation(orientation);
 		graphics::drawRect(pos_x, pos_y, 40, 40, br);
+		graphics::resetPose();
 		
 	}
 	fly = false;
@@ -91,6 +92,11 @@ void Player::draw()
 
 void Player::init()
 {
+	speed = 5.0f;
+	pos_x = CANVAS_WIDTH / 2  ;
+	pos_y = CANVAS_HEIGHT - 30;
+	fly = false;
+	orientation = 0.0f;
 }
 
 Disk Player::getCollisionHull() const
