@@ -14,12 +14,12 @@ void Turtle::update()
 void Turtle::draw()
 {
 	graphics::Brush br;
-	br.texture = std::string(ASSET_PATH) + "turtle.png";
+	br.texture = std::string(ASSET_PATH) + "turtle-mid.png";
 	br.outline_opacity = 0.f;
-	graphics::setOrientation(90);
+	graphics::setOrientation(-diraction*90);
 	graphics::drawRect(pos_x, pos_y, size, size, br);
-	graphics::setOrientation(90);
-	graphics::drawRect(pos_x+40, pos_y, size, size, br);
+	graphics::setOrientation(-diraction * 90);
+	graphics::drawRect(pos_x+35, pos_y, size, size, br);
 	graphics::resetPose();
 	br.outline_opacity = 1.f;
 	br.texture = "";
@@ -29,11 +29,11 @@ void Turtle::draw()
 	br.fill_opacity = 0.3f;
 	br.gradient = false;
 
-	Disk hull1 = getCollisionHull(20, 10, 3.5f);
+	Disk hull1 = getCollisionHull(20, 0, 3.5f);
 	graphics::drawDisk(hull1.cx, hull1.cy, hull1.radius, br);
-	Disk hull2 = getCollisionHull(-20, 10, 3.5f);
+	Disk hull2 = getCollisionHull(-20, 0, 3.5f);
 	graphics::drawDisk(hull2.cx, hull2.cy, hull2.radius, br);
-	Disk hull3 = getCollisionHull(60, 10, 3.5f);
+	Disk hull3 = getCollisionHull(60, 0, 3.5f);
 	graphics::drawDisk(hull3.cx, hull3.cy, hull3.radius, br);
 	
 
@@ -42,8 +42,8 @@ void Turtle::draw()
 void Turtle::init()
 {
 
-	speed = 0.1f;
-	size = 100;
+	speed = 0.08f;
+	size = 90;
 	active = true;
 	diraction = 1.f;
 }

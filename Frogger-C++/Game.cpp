@@ -101,7 +101,7 @@ void Game::draw()
 void Game::spownTurtles(int start)
 {
 	
-	base_t_pos = 255;
+	base_t_pos = 265;
 	float directionSetter = -1.f;
 	for (int i = start; i < start + 5; ++i)
 	{
