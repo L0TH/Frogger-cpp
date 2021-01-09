@@ -2,7 +2,7 @@
 #include"GameObject.h"
 class Enemy :public GameObject, public Collitable
 {
-	
+
 	float pos_x, pos_y;
 	float speed;
 	float diraction;

@@ -5,25 +5,33 @@
 #include "Turtle.h"
 class Game
 {
+	//general
+	void spawn(int start,float base_pos,int type,bool alivestate[]);
+	float base_pos = 615;
 	bool onetime = true;
-	Player * player=nullptr;
-	bool player_initialized=false;
+	float dxCal(float a, float b);
+	//player
+	Player* player = nullptr;
+	bool player_initialized = false;
+	//enemy
+	bool checkEnemyCollision();
 	bool loc_enemy[15];
 	int numOfEnemys = 15;
 	bool enemys_alive = false;
 	Enemy* enemys[15];
-	float base_pos = 615;
-	Turtle* turtle = nullptr;
 	void spownEnemy(int start);
-	void spownTurtles();
 	void checkEnemy();
-	bool checkCollision();
-	float dxCal(float a, float b);
-	
-	
+	//turtle
+	bool checkTurtleCollision();
+	float base_t_pos= 255;
+	bool loc_turtle[15];
+	int numOfTurtles = 15;
+	Turtle* turtle[15];
+	void spownTurtles(int start);
+	void checkTurtles();
 
 public:
-	
+
 	void update();
 	void draw();
 	void init();

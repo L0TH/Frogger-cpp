@@ -10,15 +10,15 @@ Player::Player(const Game& mygame)
 
 void Player::update()
 {
-	
-		if (graphics::getKeyState(graphics::SCANCODE_A))
+
+	if (graphics::getKeyState(graphics::SCANCODE_A))
 	{
 		fly = true;
 		pos_x -= speed * graphics::getDeltaTime() / 40.0f;
 		orientation = 90.0f;
-		
-		
-		
+
+
+
 	}
 	if (graphics::getKeyState(graphics::SCANCODE_D))
 	{
@@ -46,17 +46,17 @@ void Player::update()
 
 void Player::draw()
 {
-	
+
 	graphics::Brush br;
 
 	if (fly)
 	{
-		
+
 		br.texture = std::string(ASSET_PATH) + "flying-frog - Copy.png";
 		br.outline_opacity = 0.0f;
 		br.fill_opacity = 0.5f;
 		graphics::setOrientation(orientation);
-		
+
 		graphics::drawRect(pos_x - 10, pos_y + 20, 40, 40, br);
 
 		br.texture = std::string(ASSET_PATH) + "flying-frog.png";
@@ -64,7 +64,7 @@ void Player::draw()
 		br.outline_opacity = 0.0f;
 		graphics::drawRect(pos_x, pos_y, 40, 40, br);
 		graphics::resetPose();
-		
+
 	}
 	if (!fly)
 	{
@@ -73,7 +73,7 @@ void Player::draw()
 		graphics::setOrientation(orientation);
 		graphics::drawRect(pos_x, pos_y, 40, 40, br);
 		graphics::resetPose();
-		
+
 	}
 	fly = false;
 	//for debuging
@@ -87,13 +87,13 @@ void Player::draw()
 	Disk hull = getCollisionHull();
 	graphics::drawDisk(hull.cx, hull.cy, hull.radius, br);
 
-	
+
 }
 
 void Player::init()
 {
 	speed = 5.0f;
-	pos_x = CANVAS_WIDTH / 2  ;
+	pos_x = CANVAS_WIDTH / 2;
 	pos_y = CANVAS_HEIGHT - 30;
 	fly = false;
 	orientation = 0.0f;
