@@ -7,7 +7,9 @@ class Turtle : public GameObject, public Collitable
 	float diraction;
 	float size;
 	bool active;
+	
 public:
+	void setOntop(float x) { ontop = x; }
 	void update() override;
 	void draw() override;
 	void init() override;
@@ -15,8 +17,10 @@ public:
 	~Turtle();
 	bool getState() { return active; }
 	void set_diraction(float d) { diraction = d; }
+	float getDiraction() { return diraction; }
 	void set_x(float x) { pos_x = x; }
 	void set_y(float y) { pos_y = y; }
 	Disk getCollisionHull()const override;
+	Rect getRectCollisionHull()const override;
 	Disk getCollisionHull(int ofset_x, int ofset_y, float red_size) const override;
 };

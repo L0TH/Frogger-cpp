@@ -2,6 +2,7 @@
 #include "graphics.h"
 #include "Game.h"
 
+
 Player::Player(const Game& mygame)
 	:GameObject(mygame)
 {
@@ -10,13 +11,15 @@ Player::Player(const Game& mygame)
 
 void Player::update()
 {
+	
 
 	if (graphics::getKeyState(graphics::SCANCODE_A))
 	{
+		
 		fly = true;
 		pos_x -= speed * graphics::getDeltaTime() / 40.0f;
 		orientation = 90.0f;
-
+		
 
 
 	}
@@ -84,7 +87,7 @@ void Player::draw()
 	br.fill_color[2] = 0.3f;
 	br.fill_opacity = 0.3f;
 	br.gradient = false;
-	Disk hull = getCollisionHull();
+	Disk hull = getCollisionHull(0, 0, 1.25);
 	graphics::drawDisk(hull.cx, hull.cy, hull.radius, br);
 
 
@@ -113,6 +116,15 @@ Disk Player::getCollisionHull(int ofset_x, int ofset_y, float red_size) const
 	Disk disk;
 	disk.cx = pos_x;
 	disk.cy = pos_y;
-	disk.radius = 20.0f;
+	disk.radius = 20.0f/red_size;
 	return disk;
+}
+Rect Player::getRectCollisionHull() const
+{
+	Rect rect;
+	rect.rx = pos_x;
+	rect.ry = pos_y;
+	rect.rw = size;
+	rect.rh = size / 2;
+	return rect;
 }

@@ -19,6 +19,7 @@ public:
 	bool getState() { return active; }
 	Enemy(const class Game& mygame);
 	~Enemy();
+	Rect getRectCollisionHull() const;
 	Disk getCollisionHull()const override;
 	Disk getCollisionHull(int ofset_x, int ofset_y, float red_size) const override;
 };

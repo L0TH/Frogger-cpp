@@ -6,13 +6,14 @@ void Game::update()
 {
 	if (!player_initialized && graphics::getGlobalTime() > 1500)
 	{
-
+		river = new RiverCollision(*this);
 		player = new Player(*this);
 		player_initialized = true;
 
 	}
-	if (player)
+	if ( player)
 		player->update();
+
 
 	checkEnemy();
 	spownEnemy(0);
@@ -45,13 +46,8 @@ void Game::update()
 	}
 
 
-	if (checkEnemyCollision())
-	{
-		delete player;
-		player = nullptr;
-		player = new Player(*this);
-		player_initialized = true;
-	}
+	
+	checkTurtlePlayerCollision();
 
 
 }
@@ -86,13 +82,17 @@ void Game::draw()
 	}
 
 	//UI INFO for debug
+	
 	if (player)
 	{
+		//river->draw();
 		char info[40];
 		sprintf_s(info, "(%f,%f)", player->getPosX(), player->getPosY());
 		graphics::drawText(50, 50, 20, info, br);
 		graphics::resetPose();
 	}
+
+	
 	
 
 
@@ -177,6 +177,40 @@ void Game::checkEnemy()
 
 
 }
+bool Game::checkRiverTurtleCollision(int i,int j)
+{
+	if(!player)
+		return false;
+	for (int l = 0; l < numOfTurtles; ++l)
+	{
+		if (loc_turtle[l])
+		{
+			Disk d1 = turtle[l]->getCollisionHull(20, 0, 3.f);
+			Disk d2 = turtle[l]->getCollisionHull(-20, 0, 3.f);
+			Disk d3 = turtle[l]->getCollisionHull(55, 0, 3.f);
+			Disk de = river->getCollisionHull(i * 60, -j * 45, 4.f);
+			float dx1;
+			float dx2;
+			float dx3;
+			dx1 = dxCal(d1.cx, de.cx);
+			dx2 = dxCal(d2.cx, de.cx);
+			dx3 = dxCal(d3.cx, de.cx);
+			float dy1;
+			float dy2;
+			float dy3;
+			dy1 = dxCal(d1.cy, de.cy);
+			dy2 = dxCal(d2.cy, de.cy);
+			dy3 = dxCal(d3.cy, de.cy);
+			if (sqrt(dx1 * dx1 + dy1 * dy1) < d1.radius + de.radius || sqrt(dx2 * dx2 + dy2 * dy2) < d2.radius + de.radius || sqrt(dx3 * dx3 + dy3 * dy3) < d3.radius + de.radius)
+				return true;
+
+		}
+	}
+			return false;
+		
+	
+
+}
 void Game::checkTurtles()
 {
 
@@ -224,6 +258,8 @@ bool Game::checkEnemyCollision()
 	}
 	return false;
 }
+
+/**
 bool Game::checkTurtleCollision()
 {
 
@@ -255,7 +291,7 @@ bool Game::checkTurtleCollision()
 	}
 	return false;
 }
-
+**/
 void Game::init()
 {
 	graphics::setFont(std::string(ASSET_PATH) + "font.ttf");
@@ -274,7 +310,86 @@ Game::~Game()
 	}
 }
 
+
+
 float  Game::dxCal(float a, float b)
 {
 	return a - b;
 };
+
+bool Game::checkRiverPlayerCollision()
+{
+	
+	
+		for (int j = 0; j < 5; ++j)
+		{
+			for (int i = 0; i < 13; i++)
+			{
+				if (!checkRiverTurtleCollision( i,  j)&&player_initialized)
+				{
+					Disk d1 = player->getCollisionHull();
+					Disk de = river->getCollisionHull(i * 60, -j * 45, 3.25f);
+					float dx1;
+					dx1 = dxCal(d1.cx, de.cx);
+					float dy1;
+					dy1 = dxCal(d1.cy, de.cy);
+					if (sqrt(dx1 * dx1 + dy1 * dy1) < d1.radius + de.radius)
+						return true;
+				}
+			}
+		}
+
+
+		return false;
+		
+	
+
+}
+bool Game::checkTurtlePlayerCollision()
+{
+	if (!player)
+	{
+		return false;
+	}
+	for (int l = 0; l < numOfTurtles; ++l)
+	{
+		if (loc_turtle[l])
+		{
+			Disk d1 = turtle[l]->getCollisionHull(20, 0, 5.5f);
+			Disk d2 = turtle[l]->getCollisionHull(-20, 0, 5.5f);
+			Disk d3 = turtle[l]->getCollisionHull(55, 0, 5.5f);
+			Disk de = player->getCollisionHull(0,0,1.25);
+			float dx1;
+			float dx2;
+			float dx3;
+			dx1 = dxCal(d1.cx, de.cx);
+			dx2 = dxCal(d2.cx, de.cx);
+			dx3 = dxCal(d3.cx, de.cx);
+			float dy1;
+			float dy2;
+			float dy3;
+			dy1 = dxCal(d1.cy, de.cy);
+			dy2 = dxCal(d2.cy, de.cy);
+			dy3 = dxCal(d3.cy, de.cy);
+			if (sqrt(dx1 * dx1 + dy1 * dy1) < d1.radius + de.radius)
+			{
+				player->setPosX( (player->getPosX() + turtle[l]->getDiraction() * 1.3));
+			}
+			if (sqrt(dx2 * dx2 + dy2 * dy2) < d2.radius + de.radius)
+			{
+				player->setPosX((player->getPosX() + turtle[l]->getDiraction() * 1.3));
+			}
+			if (sqrt(dx3 * dx3 + dy3 * dy3) < d3.radius + de.radius)
+			{
+				player->setPosX((player->getPosX() + turtle[l]->getDiraction() * 1.3));
+			}
+		}
+
+	}
+	return true;
+};
+
+
+
+
+

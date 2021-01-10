@@ -36,12 +36,12 @@ void Enemy::draw()
 	br.fill_color[2] = 0.3f;
 	br.fill_opacity = 0.3f;
 	br.gradient = false;
-
+	
 	Disk hull1 = getCollisionHull(10, -3, 4.5f);
 	graphics::drawDisk(hull1.cx, hull1.cy, hull1.radius, br);
 	Disk hull2 = getCollisionHull(-15, -3, 4.5f);
 	graphics::drawDisk(hull2.cx, hull2.cy, hull2.radius, br);
-
+	
 }
 
 void Enemy::init()
@@ -55,6 +55,15 @@ void Enemy::init()
 
 Enemy::~Enemy()
 {
+}
+Rect Enemy::getRectCollisionHull() const
+{
+	Rect rect;
+	rect.rx = pos_x;
+	rect.ry = pos_y;
+	rect.rw = size;
+	rect.rh = size / 2;
+	return rect;
 }
 
 Disk Enemy::getCollisionHull() const

@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Turtle.h"
+#include "RiverCollision.h"
 class Game
 {
 	//general
@@ -22,14 +23,16 @@ class Game
 	void spownEnemy(int start);
 	void checkEnemy();
 	//turtle
-	bool checkTurtleCollision();
+	bool checkRiverTurtleCollision(int i, int j);
 	float base_t_pos= 255;
 	bool loc_turtle[15];
 	int numOfTurtles = 15;
 	Turtle* turtle[15];
 	void spownTurtles(int start);
 	void checkTurtles();
-
+	RiverCollision* river;
+	bool checkRiverPlayerCollision();
+	bool checkTurtlePlayerCollision();
 public:
 
 	void update();
