@@ -27,7 +27,7 @@ void Game::update()
 	if (graphics::getGlobalTime() > 5000)
 	{
 		spownEnemy(10);
-		spownTurtles(10);
+		spownTurtles(8);
 	}
 	for (int i = 0; i < numOfEnemys; ++i)
 	{
@@ -91,11 +91,19 @@ void Game::draw()
 	
 	if (player)
 	{
-		//river->draw();
-		char info[40];
-		sprintf_s(info, "(%f,%f)", player->getPosX(), player->getPosY());
-		graphics::drawText(50, 50, 20, info, br);
+		char time[10];
+		
+		br.fill_color[0] = 0.f;
+		br.fill_color[1] = 0.f;
+		br.fill_color[2] = 0.f;
+		sprintf_s(time, "(%2.0f)", (60000-graphics::getGlobalTime())/1000);
+		graphics::drawText(CANVAS_WIDTH-60, 40, 20, time, br);
 		graphics::resetPose();
+		//river->draw();
+		//char info[40];
+		//sprintf_s(info, "(%f,%f)", player->getPosX(), player->getPosY());
+		//graphics::drawText(50, 50, 20, info, br);
+		//graphics::resetPose();
 	}
 
 	
@@ -116,6 +124,14 @@ void Game::spownTurtles(int start)
 			turtle[i] = new Turtle(*this);
 			loc_turtle[i] = true;
 			turtle[i]->set_diraction(directionSetter);
+			if (i % 3 == 0) {
+				
+				//turtle[i]->setSpeed(0.077);
+			}
+			if (i % 4 == 0) {
+				
+				//turtle[i]->setSpeed(0.083);
+			}
 			if (directionSetter == 1.f)
 			{
 				
@@ -150,9 +166,16 @@ void Game::spownEnemy(int start)
 		{
 			enemys[i] = new Enemy(*this);
 			loc_enemy[i] = true;
+		
 			if (i % 3 == 0) {
 				char colo[40] = "pixil-frame-1.png";
 				enemys[i]->setCarColor(colo);
+				enemys[i]->setSpeed(0.1020);
+			}
+			if (i % 4 == 0) {
+				char colo[40] = "pixil-frame-2.png";
+				enemys[i]->setCarColor(colo);
+				enemys[i]-> setSpeed(0.1015);
 			}
 			enemys[i]->set_diraction(directionSetter);
 			if (directionSetter == 1.f)
@@ -304,7 +327,7 @@ bool Game::checkTurtleCollision()
 **/
 void Game::init()
 {
-	graphics::setFont(std::string(ASSET_PATH) + "font.ttf");
+	graphics::setFont(std::string(ASSET_PATH) + "timer.ttf");
 }
 Game::Game()
 {
@@ -391,7 +414,7 @@ bool Game::checkTurtlePlayerCollision()
 			}
 			if (sqrt(dx3 * dx3 + dy3 * dy3) < d3.radius + de.radius)
 			{
-				player->setPosX((player->getPosX() + turtle[l]->getDiraction() * 1.3));
+				player->setPosX((player->getPosX() + turtle[l]->getDiraction() * 1.));
 			}
 		}
 

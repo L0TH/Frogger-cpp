@@ -20,7 +20,7 @@ void RiverCollision::draw()
 	{
 		for (int i = 0; i < 13; i++)
 		{
-			//Disk hull1 = getCollisionHull(0, 0, 3.5f);
+			Disk hull1 = getCollisionHull(0, 0, 6.f);
 			graphics::drawDisk(hull[i][j].cx, hull[i][j].cy, hull[i][j].radius, br);
 		}
 	}

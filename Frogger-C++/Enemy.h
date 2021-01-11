@@ -18,6 +18,7 @@ public:
 	void set_x(float x) { pos_x = x; }
 	void set_y(float y) { pos_y = y; }
 	void set_diraction(float d) { diraction = d; }
+	void setSpeed(float s) { speed = s; }
 	void setCarColor(char x[40]) { ex1 = x; }
 	void update() override;
 	void draw() override;

@@ -17,6 +17,7 @@ public:
 	~Turtle();
 	bool getState() { return active; }
 	void set_diraction(float d) { diraction = d; }
+	void setSpeed(float s) { speed = s; }
 	float getDiraction() { return diraction; }
 	void set_x(float x) { pos_x = x; }
 	void set_y(float y) { pos_y = y; }

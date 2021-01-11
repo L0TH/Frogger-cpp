@@ -80,6 +80,7 @@ void Player::draw()
 	}
 	fly = false;
 	//for debuging
+	/**
 	br.outline_opacity = 1.f;
 	br.texture = "";
 	br.fill_color[0] = 0.3f;
@@ -89,7 +90,7 @@ void Player::draw()
 	br.gradient = false;
 	Disk hull = getCollisionHull(0, 0, 1.25);
 	graphics::drawDisk(hull.cx, hull.cy, hull.radius, br);
-
+	**/
 
 }
 
