@@ -1,7 +1,9 @@
 ﻿  Game.cpp
-C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(173,31): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(178,32): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(409,41): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(413,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(417,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(129,30): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(133,30): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(172,31): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(177,31): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(408,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(412,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(416,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   Frogger-C++.vcxproj -> C:\Users\elias kalantzis\Documents\C++\Frogger-C++\bin\Frogger-C++D.exe
