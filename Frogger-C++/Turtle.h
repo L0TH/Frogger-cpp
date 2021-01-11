@@ -21,6 +21,6 @@ public:
 	void set_x(float x) { pos_x = x; }
 	void set_y(float y) { pos_y = y; }
 	Disk getCollisionHull()const override;
-	Rect getRectCollisionHull()const override;
+	
 	Disk getCollisionHull(int ofset_x, int ofset_y, float red_size) const override;
 };

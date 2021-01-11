@@ -1,2 +1,10 @@
-﻿  Main.cpp
+﻿  Enemy.cpp
+  Game.cpp
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(384,41): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(388,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\elias kalantzis\Documents\C++\Frogger-C++\Frogger-C++\Game.cpp(392,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  GameObject.cpp
+  Main.cpp
+  Player.cpp
+  Generating Code...
   Frogger-C++.vcxproj -> C:\Users\elias kalantzis\Documents\C++\Frogger-C++\bin\Frogger-C++D.exe

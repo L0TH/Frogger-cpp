@@ -7,7 +7,7 @@ public:
 	float ontop;
 	virtual Disk getCollisionHull() const = 0;
 	virtual Disk getCollisionHull(int ofset_x, int ofset_y, float red_size) const = 0;
-	virtual Rect getRectCollisionHull() const = 0;
+	
 
 };
 class GameObject

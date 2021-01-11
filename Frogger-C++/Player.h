@@ -21,5 +21,5 @@ public:
 	void setOntop(float x) { ontop = x; }
 	Disk getCollisionHull() const override;
 	Disk getCollisionHull(int ofset_x, int ofset_y, float red_size) const override;
-	Rect getRectCollisionHull() const;
+	
 };

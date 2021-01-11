@@ -65,15 +65,3 @@ Disk RiverCollision::getCollisionHull(int ofset_x, int ofset_y, float red_size) 
 	disk.radius = size / red_size;
 	return disk;
 }
-Rect RiverCollision::getRectCollisionHull() const
-{
-	Rect rect;
-	rect.rx = pos_x;
-	rect.ry = pos_y;
-	rect.rw = size;
-	rect.rh = size / 2;
-	return rect;
-}
-
-
-

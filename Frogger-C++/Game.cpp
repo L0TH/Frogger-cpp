@@ -22,7 +22,7 @@ void Game::update()
 	if (graphics::getGlobalTime() > 2500)
 	{
 		spownEnemy(5);
-		spownTurtles(5);
+		
 	}
 	if (graphics::getGlobalTime() > 5000)
 	{
@@ -46,7 +46,13 @@ void Game::update()
 	}
 
 
-	
+	if (checkEnemyCollision()|| checkRiverPlayerCollision())
+	{
+		delete player;
+		player = nullptr;
+		player = new Player(*this);
+		player_initialized = true;
+	}
 	checkTurtlePlayerCollision();
 
 
@@ -144,6 +150,8 @@ void Game::spownEnemy(int start)
 		{
 			enemys[i] = new Enemy(*this);
 			loc_enemy[i] = true;
+			char colo[40] = "pixil-frame-1.png";
+			enemys[i]->setCarColor(colo);
 			enemys[i]->set_diraction(directionSetter);
 			if (directionSetter == 1.f)
 			{

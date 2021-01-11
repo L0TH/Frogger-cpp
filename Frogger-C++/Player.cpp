@@ -119,12 +119,3 @@ Disk Player::getCollisionHull(int ofset_x, int ofset_y, float red_size) const
 	disk.radius = 20.0f/red_size;
 	return disk;
 }
-Rect Player::getRectCollisionHull() const
-{
-	Rect rect;
-	rect.rx = pos_x;
-	rect.ry = pos_y;
-	rect.rw = size;
-	rect.rh = size / 2;
-	return rect;
-}
