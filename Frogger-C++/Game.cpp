@@ -150,8 +150,10 @@ void Game::spownEnemy(int start)
 		{
 			enemys[i] = new Enemy(*this);
 			loc_enemy[i] = true;
-			char colo[40] = "pixil-frame-1.png";
-			enemys[i]->setCarColor(colo);
+			if (i % 3 == 0) {
+				char colo[40] = "pixil-frame-1.png";
+				enemys[i]->setCarColor(colo);
+			}
 			enemys[i]->set_diraction(directionSetter);
 			if (directionSetter == 1.f)
 			{
