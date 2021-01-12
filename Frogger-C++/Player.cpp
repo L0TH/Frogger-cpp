@@ -60,18 +60,18 @@ void Player::draw()
 		br.fill_opacity = 0.5f;
 		graphics::setOrientation(orientation);
 
-		graphics::drawRect(pos_x - 10, pos_y + 20, 40, 40, br);
+		graphics::drawRect(pos_x - 10, pos_y + 20, 40, 60, br);
 
-		br.texture = std::string(ASSET_PATH) + "flying-frog.png";
+		br.texture = std::string(ASSET_PATH) + "flying-frog2.png";
 		br.fill_opacity = 1.0f;
 		br.outline_opacity = 0.0f;
-		graphics::drawRect(pos_x, pos_y, 40, 40, br);
+		graphics::drawRect(pos_x, pos_y, 40, 60, br);
 		graphics::resetPose();
 
 	}
 	if (!fly)
 	{
-		br.texture = std::string(ASSET_PATH) + "sitting-frog.png";
+		br.texture = std::string(ASSET_PATH) + "sitting-frog2.png";
 		br.outline_opacity = 0.0f;
 		graphics::setOrientation(orientation);
 		graphics::drawRect(pos_x, pos_y, 40, 40, br);
