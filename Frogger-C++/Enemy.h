@@ -11,7 +11,7 @@ class Enemy :public GameObject, public Collitable
 	float diraction;
 	float size;
 	bool active;
-	string ex1 = "pixil-frame-0.png";
+	std::string ex1 = "pixil-frame-0.png";
 	
 public:
 	//make it a getter

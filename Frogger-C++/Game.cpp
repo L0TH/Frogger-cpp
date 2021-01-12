@@ -4,64 +4,18 @@
 
 void Game::update()
 {
-	if (!player_initialized && graphics::getGlobalTime() > 1500)
+	if (status == STATUS_START)
 	{
-		river = new RiverCollision(*this);
-		player = new Player(*this);
-		player_initialized = true;
-
-	}
-	if (player)
-		player->update();
-
-
-	checkEnemy();
-	spownEnemy(0);
-	checkTurtles();
-	spownTurtles(0);
-	if (graphics::getGlobalTime() > 2500)
+		updateStartScreen();
+	}else
 	{
-		spownEnemy(5);
-
+		updatePlayingScreen();
 	}
-	if (graphics::getGlobalTime() > 5000)
-	{
-		spownEnemy(10);
-		spownTurtles(10);
-	}
-	for (int i = 0; i < numOfEnemys; ++i)
-	{
-		if (enemys[i])
-		{
-			enemys[i]->update();
-		}
-	}
-	for (int i = 0; i < numOfTurtles; ++i)
-	{
-		if (turtle[i])
-		{
-			turtle[i]->update();
-
-		}
-	}
-
-
-	if (checkEnemyCollision() || checkRiverPlayerCollision()||checkFinishCollision())
-	{
-		if (player->getPosY() <= 55)
-		{
-			score += 100;
-		}
-		delete player;
-		player = nullptr;
-		player = new Player(*this);
-		player_initialized = true;
-	}
-	checkTurtlePlayerCollision();
+	
 
 }
 
-void Game::draw()
+void Game::drawPlayingScreen()
 {
 	graphics::Brush br;
 	br.texture = std::string(ASSET_PATH) + "frogger-background.png";
@@ -99,7 +53,8 @@ void Game::draw()
 		br.fill_color[0] = 0.f;
 		br.fill_color[1] = 0.f;
 		br.fill_color[2] = 0.f;
-		sprintf_s(time, "(%2.0f)", (60000 - graphics::getGlobalTime()) / 1000);
+		float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
+		sprintf_s(time, "(%2.0f)", x);
 		graphics::drawText(CANVAS_WIDTH - 60, 40, 20, time, br);
 		graphics::resetPose();
 		river->draw();
@@ -112,11 +67,41 @@ void Game::draw()
 		graphics::resetPose();
 	}
 
+}
 
 
 
+void Game::drawStartScreen()
+{
+	graphics::Brush br;
+	br.texture = std::string(ASSET_PATH) + "super-frogger.png";
+	br.outline_opacity = 0.0f;
+	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_WIDTH, br);
+	char info[40];
+	sprintf_s(info, "Press ENDER to start" );
+	graphics::drawText(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2+260, 25, info, br);
+	br.fill_color[0] = 0.146f;
+	br.fill_color[1] = 0.644f;
+	br.fill_color[2] = 0.322f;
 
+	
+	sprintf_s(info, "SUPER");
+	graphics::drawText(60, 80, 45, info, br);
+	sprintf_s(info, "FROGGER");
+	graphics::drawText(50, 120, 45, info, br);
+}
 
+void Game::draw()
+{
+	if (status == STATUS_START)
+	{
+		drawStartScreen();
+	}
+	else
+	{
+		drawPlayingScreen();
+	}
+		
 }
 void Game::spownTurtles(int start)
 {
@@ -164,6 +149,7 @@ void Game::spownTurtles(int start)
 void Game::spownEnemy(int start)
 {
 	//maybe if must leave an numOfEnemys become static 
+	base_pos = 615;
 	int depos_y = -1;
 	float directionSetter = -1.f;
 	for (int i = start; i < start + 5; ++i)
@@ -197,7 +183,7 @@ void Game::spownEnemy(int start)
 		}
 		directionSetter *= -1.f;
 	}
-	base_pos = 615;
+	
 	directionSetter = -1.f;
 }
 void Game::checkEnemy()
@@ -297,39 +283,7 @@ bool Game::checkEnemyCollision()
 	return false;
 }
 
-/**
-bool Game::checkTurtleCollision()
-{
 
-	for (int i = 0; i < numOfTurtles; ++i)
-	{
-		if (!player || !turtle[i])
-		{
-			return false;
-		}
-
-		Disk d1 = player->getCollisionHull();
-		//de=disk x of enemy
-		Disk de[2];
-		de[0] = turtle[i]->getCollisionHull(10, -3, 4.5f);
-		de[1] = turtle[i]->getCollisionHull(10, -3, 4.5f);
-		float dx1;
-		float dx2;
-		dx1 = dxCal(d1.cx, de[0].cx);
-		dx2 = dxCal(d1.cx, de[1].cx);
-		float dy1;
-		float dy2;
-		dy1 = dxCal(d1.cy, de[0].cy);
-		dy2 = dxCal(d1.cy, de[1].cy);
-
-
-		if (sqrt(dx1 * dx1 + dy1 * dy1) < d1.radius + de[0].radius || sqrt(dx2 * dx2 + dy2 * dy2) < d1.radius + de[1].radius)
-			return true;
-
-	}
-	return false;
-}
-**/
 void Game::init()
 {
 	graphics::setFont(std::string(ASSET_PATH) + "timer.ttf");
@@ -460,7 +414,76 @@ bool Game::checkFinishCollision()
 }
 
 
+void Game::updateStartScreen()
+{
+	if (graphics::getKeyState(graphics::SCANCODE_RETURN))
+	{
+		status = STATUS_PLAYING;
+		startTime = graphics::getGlobalTime();
+	}
+}
 
+void Game::updatePlayingScreen()
+{
+	
+	if (!player_initialized && graphics::getGlobalTime() > 1500)
+	{
+		river = new RiverCollision(*this);
+		player = new Player(*this);
+		player_initialized = true;
+
+	}
+	if (player)
+		player->update();
+
+
+	checkEnemy();
+	checkTurtles();
+	if (graphics::getGlobalTime() - startTime > 0)
+	{
+		spownEnemy(0);
+		spownTurtles(0);
+	}
+	if ( graphics::getGlobalTime()-startTime > 2500)
+	{
+		spownEnemy(5);
+
+	}
+	if (graphics::getGlobalTime()-startTime > 5000)
+	{
+		spownEnemy(10);
+		spownTurtles(10);
+	}
+	for (int i = 0; i < numOfEnemys; ++i)
+	{
+		if (enemys[i])
+		{
+			enemys[i]->update();
+		}
+	}
+	for (int i = 0; i < numOfTurtles; ++i)
+	{
+		if (turtle[i])
+		{
+			turtle[i]->update();
+
+		}
+	}
+
+
+	if (checkEnemyCollision() || checkRiverPlayerCollision()||checkFinishCollision())
+	{
+		if (player->getPosY() <= 55)
+		{
+			score += 100;
+		}
+		delete player;
+		player = nullptr;
+		player = new Player(*this);
+		player_initialized = true;
+	}
+	checkTurtlePlayerCollision();
+}
 
 
 

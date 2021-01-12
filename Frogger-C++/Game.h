@@ -7,35 +7,43 @@
 class Game
 {
 	//general
-	void spawn(int start,float base_pos,int type,bool alivestate[]);
-	float base_pos = 615;
-	bool onetime = true;
+	
+	
 	float dxCal(float a, float b);
 	//player
 	Player* player = nullptr;
 	bool player_initialized = false;
 	//enemy
 	bool checkEnemyCollision();
+	float base_pos = 615;
 	bool loc_enemy[15];
 	int numOfEnemys = 15;
-	bool enemys_alive = false;
 	Enemy* enemys[15];
 	void spownEnemy(int start);
 	void checkEnemy();
 	//turtle
-	bool checkRiverTurtleCollision(int i, int j);
 	float base_t_pos= 255;
 	bool loc_turtle[15];
 	int numOfTurtles = 15;
 	Turtle* turtle[15];
 	void spownTurtles(int start);
 	void checkTurtles();
+	//collision
 	RiverCollision* river;
+	bool checkRiverTurtleCollision(int i, int j);
 	bool checkRiverPlayerCollision();
 	bool checkTurtlePlayerCollision();
 	bool checkFinishCollision();
+	//UI
 	float score = 0;
+	float startTime;
 	
+	typedef enum {STATUS_START,STATUS_PLAYING} status_t;
+	status_t status = STATUS_START;
+	void updateStartScreen();
+	void updatePlayingScreen();
+	void drawStartScreen();
+	void drawPlayingScreen();
 public:
 
 	void update();
