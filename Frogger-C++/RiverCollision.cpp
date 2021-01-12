@@ -16,20 +16,22 @@ void RiverCollision::draw()
 	br.fill_color[2] = 1.f;
 	br.fill_opacity = 0.3f;
 	br.gradient = false;
-	for (int j = 0; j < 5; ++j)
-	{
-		for (int i = 0; i < 13; i++)
+	
+		for (int i = 1; i < 11; i=i+2)
 		{
-			Disk hull1 = getCollisionHull(0, 0, 6.f);
-			graphics::drawDisk(hull[i][j].cx, hull[i][j].cy, hull[i][j].radius, br);
+			
+			Disk hull = getCollisionHull(i*60, 0, 5.f);
+			graphics::drawDisk(hull.cx, hull.cy, hull.radius , br);
 		}
-	}
+		
+	
 	
 }
 
 void RiverCollision::init()
 {
 	//delete
+	/**
 	for (int j = 0; j < 5; ++j)
 	{
 		for (int i = 0; i < 13; i++)
@@ -37,6 +39,8 @@ void RiverCollision::init()
 			hull[i][j] = getCollisionHull(i*60, -j * 45, 3.f);
 		}
 	}
+	**/
+	
 }
 
 RiverCollision::RiverCollision(const Game& mygame)

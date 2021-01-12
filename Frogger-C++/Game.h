@@ -33,6 +33,9 @@ class Game
 	RiverCollision* river;
 	bool checkRiverPlayerCollision();
 	bool checkTurtlePlayerCollision();
+	bool checkFinishCollision();
+	float score = 0;
+	
 public:
 
 	void update();

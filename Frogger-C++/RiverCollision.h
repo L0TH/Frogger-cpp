@@ -15,6 +15,8 @@ public:
 	void update() override;
 	void draw() override;
 	void init() override;
+	void setPosX(float x) { pos_x = x; }
+	void setPosY(float y) { pos_y = y; }
 	RiverCollision(const class Game& mygame);
 	~RiverCollision();
 	Disk getCollisionHull()const override;
