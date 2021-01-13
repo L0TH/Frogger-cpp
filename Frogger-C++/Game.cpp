@@ -7,89 +7,20 @@ void Game::update()
 	if (status == STATUS_START)
 	{
 		updateStartScreen();
-	}else
+	}else if(status==STATUS_PLAYING)
 	{
 		updatePlayingScreen();
 	}
+	else
+	{
+		updateEndScreen();
+	}
 	
 
 }
 
-void Game::drawPlayingScreen()
-{
-	graphics::Brush br;
-	br.texture = std::string(ASSET_PATH) + "frogger-background.png";
-	br.outline_opacity = 0.0f;
-
-	//draw background
-	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_WIDTH, br);
-	for (int i = 0; i < numOfTurtles; ++i)
-	{
-		if (turtle[i])
-		{
-			turtle[i]->draw();
-
-		}
-	}
-	//draw player
-	if (player)
-		player->draw();
-
-	for (int i = 0; i < numOfEnemys; ++i)
-	{
-		if (enemys[i])
-		{
-			enemys[i]->draw();
-
-		}
-	}
-
-	//UI INFO for debug
-
-	if (player)
-	{
-		char time[10];
-
-		br.fill_color[0] = 0.f;
-		br.fill_color[1] = 0.f;
-		br.fill_color[2] = 0.f;
-		float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
-		sprintf_s(time, "(%2.0f)", x);
-		graphics::drawText(CANVAS_WIDTH - 60, 40, 20, time, br);
-		graphics::resetPose();
-		river->draw();
-		char info[40];
-		sprintf_s(info, "(%f,%f)", player->getPosX(), player->getPosY());
-		graphics::drawText(50, 50, 20, info, br);
-		char scoref[10];
-		sprintf_s(scoref, "(%2.0f)", score);
-		graphics::drawText(50, 80, 20, scoref, br);
-		graphics::resetPose();
-	}
-
-}
 
 
-
-void Game::drawStartScreen()
-{
-	graphics::Brush br;
-	br.texture = std::string(ASSET_PATH) + "super-frogger.png";
-	br.outline_opacity = 0.0f;
-	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_WIDTH, br);
-	char info[40];
-	sprintf_s(info, "Press ENDER to start" );
-	graphics::drawText(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2+260, 25, info, br);
-	br.fill_color[0] = 0.146f;
-	br.fill_color[1] = 0.644f;
-	br.fill_color[2] = 0.322f;
-
-	
-	sprintf_s(info, "SUPER");
-	graphics::drawText(60, 80, 45, info, br);
-	sprintf_s(info, "FROGGER");
-	graphics::drawText(50, 120, 45, info, br);
-}
 
 void Game::draw()
 {
@@ -97,9 +28,13 @@ void Game::draw()
 	{
 		drawStartScreen();
 	}
-	else
+	else if (status == STATUS_PLAYING)
 	{
 		drawPlayingScreen();
+	}
+	else
+	{
+		drawEndScreen();
 	}
 		
 }
@@ -292,6 +227,21 @@ Game::Game()
 {
 }
 
+void Game::drawEndScreen()
+{
+	graphics::Brush br;
+	char info[80];
+	sprintf_s(info, "About Us:");
+	graphics::drawText(CANVAS_WIDTH / 2-60, CANVAS_HEIGHT / 2-200, 20, info, br);
+	sprintf_s(info, "Creators:   Ilias   Kalantzis    Giannis   Apostolou");
+	graphics::drawText(CANVAS_WIDTH / 2 - 240, CANVAS_HEIGHT / 2 - 170, 20, info, br);
+	sprintf_s(info, "AM:   3190068    3190013");
+	graphics::drawText(CANVAS_WIDTH / 2 - 120, CANVAS_HEIGHT / 2 - 140, 20, info, br);
+	sprintf_s(info, "Press  R  to restart");
+	graphics::drawText(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2+50 , 15, info, br);
+}
+
+
 
 
 Game::~Game()
@@ -317,7 +267,7 @@ bool Game::checkRiverPlayerCollision()
 	{
 		for (int i = 0; i < 13; i++)
 		{
-			if (!checkRiverTurtleCollision(i, j) && player_initialized)
+			if (player_initialized &&!checkRiverTurtleCollision(i, j) )
 			{
 				river->setPosX(0);
 				river->setPosY(265);
@@ -425,6 +375,16 @@ void Game::updateStartScreen()
 
 void Game::updatePlayingScreen()
 {
+	//change to 60000
+	float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
+	if (x <= 0)
+	{
+		delete player;
+		player = nullptr;
+		player_initialized = false;
+		status = STATUS_END;
+
+	}
 	
 	if (!player_initialized && graphics::getGlobalTime() > 1500)
 	{
@@ -469,14 +429,15 @@ void Game::updatePlayingScreen()
 
 		}
 	}
+	
 
-
-	if (checkEnemyCollision() || checkRiverPlayerCollision()||checkFinishCollision())
+	if (player_initialized && checkEnemyCollision() || checkRiverPlayerCollision()||checkFinishCollision())
 	{
 		if (player->getPosY() <= 55)
 		{
 			score += 100;
 		}
+		
 		delete player;
 		player = nullptr;
 		player = new Player(*this);
@@ -484,6 +445,97 @@ void Game::updatePlayingScreen()
 	}
 	checkTurtlePlayerCollision();
 }
+void Game::updateEndScreen()
+{
+	if (graphics::getKeyState(graphics::SCANCODE_R))
+	{
+		status = STATUS_START;
+	}
+}
 
 
+
+void Game::drawStartScreen()
+{
+	graphics::Brush br;
+	br.texture = std::string(ASSET_PATH) + "super-frogger.png";
+	br.outline_opacity = 0.0f;
+	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_WIDTH, br);
+	char info[40];
+	sprintf_s(info, "Press ENDER to start");
+	br.fill_color[0] = 0.f;
+	br.fill_color[1] = 0.f;
+	br.fill_color[2] = 0.f;
+	graphics::drawText(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 260, 25, info, br);
+	br.texture=std::string(ASSET_PATH) + "wasd.png";
+	graphics::drawRect(CANVAS_WIDTH / 1.45, CANVAS_HEIGHT / 2+290,130,130, br);
+	
+	sprintf_s(info, "Controls:");
+
+	br.fill_color[0] = 0.f;
+	br.fill_color[1] = 0.f;
+	br.fill_color[2] = 0.f;
+	graphics::drawText(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 300, 18, info, br);
+	
+	br.fill_color[0] = 0.146f;
+	br.fill_color[1] = 0.644f;
+	br.fill_color[2] = 0.322f;
+	sprintf_s(info, "SUPER");
+	graphics::drawText(60, 80, 45, info, br);
+	sprintf_s(info, "FROGGER");
+	graphics::drawText(50, 120, 45, info, br);
+}
+void Game::drawPlayingScreen()
+{
+	graphics::Brush br;
+	br.texture = std::string(ASSET_PATH) + "frogger-background.png";
+	br.outline_opacity = 0.0f;
+
+	//draw background
+	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_WIDTH, br);
+	for (int i = 0; i < numOfTurtles; ++i)
+	{
+		if (turtle[i])
+		{
+			turtle[i]->draw();
+
+		}
+	}
+	//draw player
+	if (player)
+		player->draw();
+
+	for (int i = 0; i < numOfEnemys; ++i)
+	{
+		if (enemys[i])
+		{
+			enemys[i]->draw();
+
+		}
+	}
+
+	//UI INFO for debug
+
+	if (player)
+	{
+		char time[10];
+
+		br.fill_color[0] = 0.f;
+		br.fill_color[1] = 0.f;
+		br.fill_color[2] = 0.f;
+		float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
+		sprintf_s(time, "(%2.0f)", x);
+		graphics::drawText(CANVAS_WIDTH - 60, 40, 20, time, br);
+		graphics::resetPose();
+		
+		char info[40];
+		sprintf_s(info, "(%f,%f)", player->getPosX(), player->getPosY());
+		graphics::drawText(50, 50, 20, info, br);
+		char scoref[10];
+		sprintf_s(scoref, "(%2.0f)", score);
+		graphics::drawText(50, 80, 20, scoref, br);
+		graphics::resetPose();
+	}
+
+}
 
