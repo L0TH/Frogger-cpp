@@ -20,16 +20,17 @@ class Game
 	int numOfEnemys = 15;
 	Enemy* enemys[15];
 	void spownEnemy(int start);
-	void checkEnemy();
+	void checkEnemy(bool kill);
 	bool carhit;
 	bool drowing;
+	float time;
 	//turtle
 	float base_t_pos= 255;
 	bool loc_turtle[15];
 	int numOfTurtles = 15;
 	Turtle* turtle[15];
 	void spownTurtles(int start);
-	void checkTurtles();
+	void checkTurtles(bool kill);
 	//collision
 	RiverCollision* river;
 	bool checkRiverTurtleCollision(int i, int j);

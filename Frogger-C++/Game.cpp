@@ -6,6 +6,7 @@ void Game::update()
 {
 	if (status == STATUS_START)
 	{
+		
 		updateStartScreen();
 	}else if(status==STATUS_PLAYING)
 	{
@@ -121,12 +122,18 @@ void Game::spownEnemy(int start)
 	
 	directionSetter = -1.f;
 }
-void Game::checkEnemy()
+void Game::checkEnemy(bool kill)
 {
 
 	for (int i = 0; i < numOfEnemys; ++i)
 	{
 		if (enemys[i] && !enemys[i]->getState())
+		{
+			delete enemys[i];
+			enemys[i] = nullptr;
+			loc_enemy[i] = false;
+		}
+		if (kill)
 		{
 			delete enemys[i];
 			enemys[i] = nullptr;
@@ -170,12 +177,18 @@ bool Game::checkRiverTurtleCollision(int i, int j)
 
 
 }
-void Game::checkTurtles()
+void Game::checkTurtles(bool kill)
 {
 
 	for (int i = 0; i < numOfTurtles; ++i)
 	{
 		if (turtle[i] && !turtle[i]->getState())
+		{
+			delete turtle[i];
+			turtle[i] = nullptr;
+			loc_turtle[i] = false;
+		}
+		if (kill)
 		{
 			delete turtle[i];
 			turtle[i] = nullptr;
@@ -224,6 +237,8 @@ bool Game::checkEnemyCollision()
 void Game::init()
 {
 	graphics::setFont(std::string(ASSET_PATH) + "timer.ttf");
+
+	graphics::playMusic(std::string(ASSET_PATH) + "JOHN WILLIAMS - SUPERMAN THEME.mp3", 1, true, 0);
 }
 Game::Game()
 {
@@ -371,8 +386,11 @@ bool Game::checkFinishCollision()
 
 void Game::updateStartScreen()
 {
+	
+		
 	if (graphics::getKeyState(graphics::SCANCODE_RETURN))
 	{
+		graphics::stopMusic(500);
 		status = STATUS_PLAYING;
 		startTime = graphics::getGlobalTime();
 	}
@@ -382,8 +400,11 @@ void Game::updatePlayingScreen()
 {
 	
 	float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
+	time = (graphics::getGlobalTime()- startTime);
+	
 	if (x <= 0)
 	{
+		
 		delete player;
 		player = nullptr;
 		player_initialized = false;
@@ -391,8 +412,9 @@ void Game::updatePlayingScreen()
 
 	}
 	
-	if (!player_initialized && graphics::getGlobalTime() > 1500)
+	if (!player_initialized && time > 1500)
 	{
+		graphics::playMusic(std::string(ASSET_PATH) + "Cars Passing.mp3", 0.6, false, 0);
 		river = new RiverCollision(*this);
 		player = new Player(*this);
 		player_initialized = true;
@@ -401,20 +423,21 @@ void Game::updatePlayingScreen()
 	if (player)
 		player->update();
 
-
-	checkEnemy();
-	checkTurtles();
-	if (graphics::getGlobalTime() - startTime > 0)
+	if (time > 0)
+		checkEnemy(false);
+	
+	checkTurtles(false);
+	if (time > 0)
 	{
 		spownEnemy(0);
 		spownTurtles(0);
 	}
-	if ( graphics::getGlobalTime()-startTime > 2500)
+	if (time > 2500)
 	{
 		spownEnemy(5);
 
 	}
-	if (graphics::getGlobalTime()-startTime > 5000)
+	if (time > 5000)
 	{
 		spownEnemy(10);
 		spownTurtles(10);
@@ -446,6 +469,7 @@ void Game::updatePlayingScreen()
 		if (carhit)
 		{
 			graphics::playSound(std::string(ASSET_PATH) + "neck_snap.wav", 0.3, false);
+			
 			carhit = false;
 		}
 		if (drowing)
@@ -462,8 +486,14 @@ void Game::updatePlayingScreen()
 }
 void Game::updateEndScreen()
 {
+	checkTurtles(true);
+	checkEnemy(true);
+	graphics::stopMusic(500);
+	if(!player_initialized)
+		graphics::playMusic(std::string(ASSET_PATH) + "The-End.mp3", 1);
 	if (graphics::getKeyState(graphics::SCANCODE_R))
 	{
+		graphics::stopMusic(1000);
 		status = STATUS_START;
 	}
 }
@@ -472,6 +502,7 @@ void Game::updateEndScreen()
 
 void Game::drawStartScreen()
 {
+
 	graphics::Brush br;
 	br.texture = std::string(ASSET_PATH) + "super-frogger.png";
 	br.outline_opacity = 0.0f;
