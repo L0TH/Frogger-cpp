@@ -40,7 +40,7 @@ class Game
 	//UI
 	float score = 0;
 	float startTime;
-
+	bool musicPlaying=false;
 	typedef enum {STATUS_START,STATUS_PLAYING,STATUS_END} status_t;
 	status_t status = STATUS_START;
 	void updateStartScreen();

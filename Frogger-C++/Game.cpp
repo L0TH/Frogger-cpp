@@ -14,6 +14,7 @@ void Game::update()
 	}
 	else
 	{
+		
 		updateEndScreen();
 	}
 	
@@ -246,6 +247,7 @@ Game::Game()
 
 void Game::drawEndScreen()
 {
+	
 	graphics::Brush br;
 	char info[80];
 	sprintf_s(info, "About Us:");
@@ -399,7 +401,7 @@ void Game::updateStartScreen()
 void Game::updatePlayingScreen()
 {
 	
-	float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
+	float x = (6000 + startTime - graphics::getGlobalTime()) / 1000;
 	time = (graphics::getGlobalTime()- startTime);
 	
 	if (x <= 0)
@@ -409,12 +411,18 @@ void Game::updatePlayingScreen()
 		player = nullptr;
 		player_initialized = false;
 		status = STATUS_END;
+		if (musicPlaying)
+		{
+			graphics::stopMusic(500);
+			musicPlaying = false;
+		}
 
 	}
 	
-	if (!player_initialized && time > 1500)
+	if (!player_initialized && time > 1500&&status!=STATUS_END)
 	{
 		graphics::playMusic(std::string(ASSET_PATH) + "Cars Passing.mp3", 0.6, false, 0);
+		musicPlaying = true;
 		river = new RiverCollision(*this);
 		player = new Player(*this);
 		player_initialized = true;
@@ -486,11 +494,17 @@ void Game::updatePlayingScreen()
 }
 void Game::updateEndScreen()
 {
+	
 	checkTurtles(true);
 	checkEnemy(true);
-	graphics::stopMusic(500);
-	if(!player_initialized)
-		graphics::playMusic(std::string(ASSET_PATH) + "The-End.mp3", 1);
+	
+	if (!musicPlaying)
+	{
+		graphics::playMusic(std::string(ASSET_PATH) + "The-End.mp3", 0.5, true, 0);
+		musicPlaying = true;
+	}
+		
+	
 	if (graphics::getKeyState(graphics::SCANCODE_R))
 	{
 		graphics::stopMusic(1000);
@@ -584,4 +598,3 @@ void Game::drawPlayingScreen()
 	}
 
 }
-
