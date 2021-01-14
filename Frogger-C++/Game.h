@@ -21,6 +21,8 @@ class Game
 	Enemy* enemys[15];
 	void spownEnemy(int start);
 	void checkEnemy();
+	bool carhit;
+	bool drowing;
 	//turtle
 	float base_t_pos= 255;
 	bool loc_turtle[15];

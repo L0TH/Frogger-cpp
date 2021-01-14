@@ -212,8 +212,10 @@ bool Game::checkEnemyCollision()
 
 
 		if (sqrt(dx1 * dx1 + dy1 * dy1) < d1.radius + de[0].radius || sqrt(dx2 * dx2 + dy2 * dy2) < d1.radius + de[1].radius)
+		{
+			carhit = true;
 			return true;
-
+		}
 	}
 	return false;
 }
@@ -278,7 +280,10 @@ bool Game::checkRiverPlayerCollision()
 				float dy1;
 				dy1 = dxCal(d1.cy, de.cy);
 				if (sqrt(dx1 * dx1 + dy1 * dy1) < d1.radius + de.radius)
+				{
+					drowing = true;
 					return true;
+				}
 			}
 		}
 	}
@@ -375,7 +380,7 @@ void Game::updateStartScreen()
 
 void Game::updatePlayingScreen()
 {
-	//change to 60000
+	
 	float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
 	if (x <= 0)
 	{
@@ -435,9 +440,19 @@ void Game::updatePlayingScreen()
 	{
 		if (player->getPosY() <= 55)
 		{
+			graphics::playSound(std::string(ASSET_PATH)+"Ta-Da.wav",0.5,false);
 			score += 100;
 		}
-		
+		if (carhit)
+		{
+			graphics::playSound(std::string(ASSET_PATH) + "neck_snap.wav", 0.3, false);
+			carhit = false;
+		}
+		if (drowing)
+		{
+			graphics::playSound(std::string(ASSET_PATH) + "Splash-Sound-Effect.wav", 0.3, false);
+			drowing = false;
+		}
 		delete player;
 		player = nullptr;
 		player = new Player(*this);
