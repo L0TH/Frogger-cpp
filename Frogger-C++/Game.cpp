@@ -401,7 +401,7 @@ void Game::updateStartScreen()
 void Game::updatePlayingScreen()
 {
 	
-	float x = (6000 + startTime - graphics::getGlobalTime()) / 1000;
+	float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
 	time = (graphics::getGlobalTime()- startTime);
 	
 	if (x <= 0)
