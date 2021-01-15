@@ -376,7 +376,8 @@ bool Game::checkFinishCollision()
 		
 		if (sqrt(dx * dx + dy * dy) < d1.radius + dp.radius)
 		{
-			
+			if (i % 2)
+				drowing = true;
 			return true;
 		}
 		
