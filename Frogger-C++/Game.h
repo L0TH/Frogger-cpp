@@ -38,6 +38,7 @@ class Game
 	bool checkTurtlePlayerCollision();
 	bool checkFinishCollision();
 	//UI
+	void playMusic(bool start);
 	float score = 0;
 	float startTime;
 	bool musicPlaying=false;

@@ -238,8 +238,8 @@ bool Game::checkEnemyCollision()
 void Game::init()
 {
 	graphics::setFont(std::string(ASSET_PATH) + "timer.ttf");
-
-	graphics::playMusic(std::string(ASSET_PATH) + "JOHN WILLIAMS - SUPERMAN THEME.mp3", 1, true, 0);
+	musicPlaying = false;
+	
 }
 Game::Game()
 {
@@ -388,22 +388,32 @@ bool Game::checkFinishCollision()
 
 void Game::updateStartScreen()
 {
-	
+	if (!musicPlaying)
+	{
+		playMusic(true);
 		
+	}
 	if (graphics::getKeyState(graphics::SCANCODE_RETURN))
 	{
-		graphics::stopMusic(500);
+		playMusic(false);
+		
 		status = STATUS_PLAYING;
 		startTime = graphics::getGlobalTime();
 	}
 }
+
+
 
 void Game::updatePlayingScreen()
 {
 	
 	float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
 	time = (graphics::getGlobalTime()- startTime);
-	
+	if (!musicPlaying)
+	{
+		playMusic(true);
+		
+	}
 	if (x <= 0)
 	{
 		
@@ -411,18 +421,17 @@ void Game::updatePlayingScreen()
 		player = nullptr;
 		player_initialized = false;
 		status = STATUS_END;
-		if (musicPlaying)
-		{
-			graphics::stopMusic(500);
-			musicPlaying = false;
-		}
+		playMusic(false);
+	
+		
+		
 
 	}
 	
 	if (!player_initialized && time > 1500&&status!=STATUS_END)
 	{
-		graphics::playMusic(std::string(ASSET_PATH) + "Cars Passing.mp3", 0.6, false, 0);
-		musicPlaying = true;
+		
+		
 		river = new RiverCollision(*this);
 		player = new Player(*this);
 		player_initialized = true;
@@ -500,14 +509,15 @@ void Game::updateEndScreen()
 	
 	if (!musicPlaying)
 	{
-		graphics::playMusic(std::string(ASSET_PATH) + "The-End.mp3", 0.5, true, 0);
-		musicPlaying = true;
+		playMusic(true);
+		
 	}
 		
 	
 	if (graphics::getKeyState(graphics::SCANCODE_R))
 	{
-		graphics::stopMusic(1000);
+		playMusic(false);
+		
 		status = STATUS_START;
 	}
 }
@@ -597,4 +607,47 @@ void Game::drawPlayingScreen()
 		graphics::resetPose();
 	}
 
+}
+void Game::playMusic(bool start)
+{
+	musicPlaying = start;
+	if (status == STATUS_START)
+	{
+		if (start)
+		{
+			graphics::playMusic(std::string(ASSET_PATH) + "JOHN WILLIAMS - SUPERMAN THEME.mp3", 1, true, 0);
+			
+		}
+		else
+		{
+			graphics::stopMusic(500);
+		
+		}
+	}
+	else if (status == STATUS_PLAYING)
+	{
+		if (start)
+		{
+			graphics::playMusic(std::string(ASSET_PATH) + "Cars Passing.mp3", 0.6, false, 0);
+			
+		}
+		else
+		{
+			graphics::stopMusic(500);
+			
+		}
+	}
+	else
+	{
+		if (start)
+		{
+			graphics::playMusic(std::string(ASSET_PATH) + "The-End.mp3", 0.5, true, 0);
+			
+		}
+		else
+		{
+			graphics::stopMusic(500);
+			
+		}
+	}
 }
