@@ -262,6 +262,8 @@ void Game::drawEndScreen()
 	graphics::drawText(CANVAS_WIDTH / 2-250, CANVAS_HEIGHT / 2 + 50, 16, info, br);
 	sprintf_s(info, "%4.0f",score);
 	graphics::drawText(CANVAS_WIDTH / 2 - 50, CANVAS_HEIGHT / 2 + 50, 16, info, br);
+	sprintf_s(info, "For the Frog Fam");
+	graphics::drawText(CANVAS_WIDTH / 2 - 50, CANVAS_HEIGHT / 2 + 300, 16, info, br);
 }
 
 
@@ -594,21 +596,26 @@ void Game::drawPlayingScreen()
 	if (player)
 	{
 		char time[10];
-
+		br.texture = std::string(ASSET_PATH) + "clipart3319165.png";
+		graphics::drawRect(CANVAS_WIDTH - 60, CANVAS_WIDTH-30, 150, 50, br);
 		br.fill_color[0] = 0.f;
 		br.fill_color[1] = 0.f;
 		br.fill_color[2] = 0.f;
 		float x = (60000 + startTime - graphics::getGlobalTime()) / 1000;
+		
+		br.texture = "";
 		sprintf_s(time, "(%2.0f)", x);
-		graphics::drawText(CANVAS_WIDTH - 60, 40, 20, time, br);
+		graphics::drawText(CANVAS_WIDTH - 40, CANVAS_WIDTH - 20, 20, time, br);
 		graphics::resetPose();
 		
-		char info[40];
-		sprintf_s(info, "(%f,%f)", player->getPosX(), player->getPosY());
-		graphics::drawText(50, 50, 20, info, br);
+		//char info[40];
+		//sprintf_s(info, "(%f,%f)", player->getPosX(), player->getPosY());
+		//graphics::drawText(50, 50, 20, info, br);
 		char scoref[10];
 		sprintf_s(scoref, "(%2.0f)", score);
-		graphics::drawText(50, 80, 20, scoref, br);
+		graphics::drawText(CANVAS_WIDTH - 90, CANVAS_WIDTH - 20, 20, scoref, br);
+		sprintf_s(scoref, "SC:");
+		graphics::drawText(CANVAS_WIDTH - 120, CANVAS_WIDTH - 20, 20, scoref, br);
 		graphics::resetPose();
 	}
 
