@@ -257,7 +257,11 @@ void Game::drawEndScreen()
 	sprintf_s(info, "AM:   3190068    3190013");
 	graphics::drawText(CANVAS_WIDTH / 2 - 120, CANVAS_HEIGHT / 2 - 140, 20, info, br);
 	sprintf_s(info, "Press  R  to restart");
-	graphics::drawText(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2+50 , 15, info, br);
+	graphics::drawText(CANVAS_WIDTH / 2+100, CANVAS_HEIGHT / 2+50 , 16, info, br);
+	sprintf_s(info, "Thank   you  hero   !   Score:");
+	graphics::drawText(CANVAS_WIDTH / 2-250, CANVAS_HEIGHT / 2 + 50, 16, info, br);
+	sprintf_s(info, "%4.0f",score);
+	graphics::drawText(CANVAS_WIDTH / 2 - 50, CANVAS_HEIGHT / 2 + 50, 16, info, br);
 }
 
 
