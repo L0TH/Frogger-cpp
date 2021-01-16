@@ -375,7 +375,7 @@ bool Game::checkFinishCollision()
 	{
 		river->setPosX(35);
 		if(i%2==1)
-			river->setPosY(30);
+			river->setPosY(45);
 		else
 			river->setPosY(0);
 		Disk d1 = river->getCollisionHull(i * 60, 0, 5.f);
