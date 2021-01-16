@@ -108,7 +108,7 @@ Disk Player::getCollisionHull() const
 	Disk disk;
 	disk.cx = pos_x;
 	disk.cy = pos_y;
-	disk.radius = 20.0f;
+	disk.radius = 10.0f;
 	return disk;
 }
 

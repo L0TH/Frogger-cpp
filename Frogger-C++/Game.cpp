@@ -54,11 +54,11 @@ void Game::spownTurtles(int start)
 			turtle[i]->set_diraction(directionSetter);
 			if (i % 3 == 0) {
 
-				turtle[i]->setSpeed(0.077);
+				turtle[i]->setSpeed(0.076);
 			}
 			if (i % 4 == 0) {
 
-				turtle[i]->setSpeed(0.083);
+				turtle[i]->setSpeed(0.084);
 			}
 			if (directionSetter == 1.f)
 			{
@@ -152,9 +152,9 @@ bool Game::checkRiverTurtleCollision(int i, int j)
 	{
 		if (loc_turtle[l])
 		{
-			Disk d1 = turtle[l]->getCollisionHull(20, 0, 3.f);
-			Disk d2 = turtle[l]->getCollisionHull(-20, 0, 3.f);
-			Disk d3 = turtle[l]->getCollisionHull(55, 0, 3.f);
+			Disk d1 = turtle[l]->getCollisionHull(20, 0, 3.7f);
+			Disk d2 = turtle[l]->getCollisionHull(-20, 0, 3.7f);
+			Disk d3 = turtle[l]->getCollisionHull(55, 0, 3.7f);
 			Disk de = river->getCollisionHull(i * 60, -j * 45, 4.f);
 			float dx1;
 			float dx2;
@@ -237,6 +237,9 @@ bool Game::checkEnemyCollision()
 
 void Game::init()
 {
+	
+	graphics::playSound(std::string(ASSET_PATH) + "Splash-Sound-Effect.wav", 0.0, false);
+	
 	graphics::setFont(std::string(ASSET_PATH) + "timer.ttf");
 	musicPlaying = false;
 	
@@ -591,7 +594,7 @@ void Game::drawPlayingScreen()
 		}
 	}
 
-	//UI INFO for debug
+	
 
 	if (player)
 	{
@@ -606,17 +609,14 @@ void Game::drawPlayingScreen()
 		br.texture = "";
 		sprintf_s(time, "(%2.0f)", x);
 		graphics::drawText(CANVAS_WIDTH - 40, CANVAS_WIDTH - 20, 20, time, br);
-		graphics::resetPose();
-		
-		//char info[40];
-		//sprintf_s(info, "(%f,%f)", player->getPosX(), player->getPosY());
-		//graphics::drawText(50, 50, 20, info, br);
 		char scoref[10];
 		sprintf_s(scoref, "(%2.0f)", score);
 		graphics::drawText(CANVAS_WIDTH - 90, CANVAS_WIDTH - 20, 20, scoref, br);
 		sprintf_s(scoref, "SC:");
 		graphics::drawText(CANVAS_WIDTH - 120, CANVAS_WIDTH - 20, 20, scoref, br);
 		graphics::resetPose();
+		//UI INFO for debug
+		
 	}
 
 }

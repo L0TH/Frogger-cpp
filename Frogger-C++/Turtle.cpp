@@ -29,14 +29,14 @@ void Turtle::draw()
 	br.fill_color[2] = 0.3f;
 	br.fill_opacity = 0.3f;
 	br.gradient = false;
-	//for debug
-	Disk hull1 = getCollisionHull(20, 0, 3.f);
-	//graphics::drawDisk(hull1.cx, hull1.cy, hull1.radius, br);
-	Disk hull2 = getCollisionHull(-20, 0, 3.f);
-	//graphics::drawDisk(hull2.cx, hull2.cy, hull2.radius, br);
-	Disk hull3 = getCollisionHull(55, 0, 3.f);
-	//graphics::drawDisk(hull3.cx, hull3.cy, hull3.radius, br);
-	
+	/**for debug
+	Disk hull1 = getCollisionHull(20, 0, 3.7f);
+	graphics::drawDisk(hull1.cx, hull1.cy, hull1.radius, br);
+	Disk hull2 = getCollisionHull(-20, 0, 3.7f);
+	graphics::drawDisk(hull2.cx, hull2.cy, hull2.radius, br);
+	Disk hull3 = getCollisionHull(55, 0, 3.7f);
+	graphics::drawDisk(hull3.cx, hull3.cy, hull3.radius, br);
+	**/
 
 }
 
