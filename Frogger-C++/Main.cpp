@@ -1,6 +1,8 @@
 #include "graphics.h"
 #include "Game.h"
 #include "Config.h"
+#include<windows.h>
+
 
 
 void update(float ms)
@@ -18,6 +20,7 @@ void draw()
 
 int main()
 {
+    
     Game mygame;
 
     graphics::createWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Frogger");

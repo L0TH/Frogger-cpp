@@ -1,3 +1,4 @@
+
 #pragma once
 /*
 Header with all the general static information for the game
